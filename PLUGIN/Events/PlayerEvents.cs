@@ -1,4 +1,4 @@
-﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 
 namespace Mesharsky_Vip
@@ -42,8 +42,6 @@ namespace Mesharsky_Vip
 
             if (PlayerCache.TryGetValue(steamId, out var cachedPlayer))
             {
-                SavePlayerWeaponPreferences(player);
-                
                 GoodbyeMessageEveryone(player);
                 PlayerCache.TryRemove(steamId, out _);
                 Console.WriteLine($"[Mesharsky - VIP] Removed player from cache [ SteamID: {steamId} ]");

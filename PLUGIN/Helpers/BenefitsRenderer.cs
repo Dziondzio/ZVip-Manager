@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Translations;
 
@@ -62,7 +62,6 @@ public partial class MesharskyVip
             var extraJumps = services.Max(s => s.PlayerExtraJumps);
             var jumpHeight = services.Max(s => s.PlayerExtraJumpHeight);
             var hasBunnyhop = services.Any(s => s.PlayerBunnyhop);
-            var hasWeaponMenu = services.Any(s => s.WeaponMenu.Enabled);
             var hasSmokeColor = services.Any(s => s.SmokeColorEnabled);
             
             var hasGrenades = heAmount > 0 || flashAmount > 0 || smokeAmount > 0 || 
@@ -95,7 +94,7 @@ public partial class MesharskyVip
                 });
             }
             
-            var hasAbilities = extraJumps > 0 || hasBunnyhop || hasWeaponMenu;
+            var hasAbilities = extraJumps > 0 || hasBunnyhop;
             
             if (hasAbilities)
             {
@@ -114,9 +113,6 @@ public partial class MesharskyVip
                     
                     if (hasBunnyhop)
                         abilitiesMenu.AddOption(_localizer!.ForPlayer(viewer, "benefits.abilities.bhop"), (_, _) => {});
-                        
-                    if (hasWeaponMenu)
-                        abilitiesMenu.AddOption(_localizer!.ForPlayer(viewer, "benefits.abilities.weaponmenu"), (_, _) => {});
                     
                     manager.OpenSubMenu(p, abilitiesMenu);
                 });
@@ -186,7 +182,7 @@ public partial class MesharskyVip
         /// </summary>
         private static void RenderAbilities(IT3Menu menu, CCSPlayerController viewer, Service service)
         {
-            var hasAbilities = service.PlayerExtraJumps > 0 || service.PlayerBunnyhop || service.WeaponMenu.Enabled;
+            var hasAbilities = service.PlayerExtraJumps > 0 || service.PlayerBunnyhop;
             
             if (!hasAbilities) return;
             
@@ -204,9 +200,6 @@ public partial class MesharskyVip
             
             if (service.PlayerBunnyhop)
                 menu.AddOption(_localizer!.ForPlayer(viewer, "benefits.abilities.bhop"), (_, _) => { });
-                
-            if (service.WeaponMenu.Enabled)
-                menu.AddOption(_localizer!.ForPlayer(viewer, "benefits.abilities.weaponmenu"), (_, _) => { });
         }
         
         /// <summary>

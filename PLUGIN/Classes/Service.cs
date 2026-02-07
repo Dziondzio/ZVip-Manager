@@ -47,7 +47,10 @@ public partial class MesharskyVip
         public int HealthPerKnifeKill { get; set; } = 0;
         public int HealthPerNoScope { get; set; } = 0;
         
-        // Weapon Menu
-        public WeaponMenuConfig WeaponMenu { get; set; } = new();
+        // Tags
+        public string ChatTag { get; set; } = "";
+        public string ChatColor { get; set; } = "";
+        public string NameColor { get; set; } = "";
+        public string ScoreboardTag { get; set; } = "";
     }
 }

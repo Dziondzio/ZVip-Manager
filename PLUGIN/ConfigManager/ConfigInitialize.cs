@@ -23,7 +23,7 @@ public partial class MesharskyVip
             Database = dbTable["database"].ToString(),
             Password = dbTable["password"].ToString(),
             Port = int.Parse(dbTable["port"].ToString()),
-            TablePrefix = dbTable["table_prefix"].ToString()
+            TablePrefix = dbTable.TryGetValue("table_prefix", out var tablePrefix) ? tablePrefix.ToString() : ""
         };
 
         var pluginTable = (TomlTable)model["PluginSettings"];
@@ -33,7 +33,8 @@ public partial class MesharskyVip
             OnlineList = bool.Parse(pluginTable["online_list"].ToString()),
             BonusesList = bool.Parse(pluginTable["bonuses_list"].ToString()),
             BypassFlag = pluginTable["bypass_flag"].ToString(),
-            BypassFlagGive = pluginTable["bypass_flag_give"].ToString()
+            BypassFlagGive = pluginTable["bypass_flag_give"].ToString(),
+            UseInternalTags = pluginTable.TryGetValue("use_internal_tags", out var useTags) ? bool.Parse(useTags.ToString()) : true
         };
         
         var vipTestConfig = new VipTestConfig();
@@ -94,17 +95,6 @@ public partial class MesharskyVip
             if (commandTable.TryGetValue("online_command", out var onlineCmdObj) && onlineCmdObj is TomlArray onlineCmdArray)
             {
                 commandSettings.OnlineCommand = [.. onlineCmdArray.Cast<string>()];
-            }
-            
-            
-            if (commandTable.TryGetValue("weapons_menu_command", out var weaponsMenuCmdObj) && weaponsMenuCmdObj is TomlArray weaponsMenuCmdArray)
-            {
-                commandSettings.WeaponsMenuCommand = [.. weaponsMenuCmdArray.Cast<string>()];
-            }
-
-            if (commandTable.TryGetValue("weapons_menu_reset_command", out var weaponsMenuResetCmdObj) && weaponsMenuResetCmdObj is TomlArray weaponsMenuResetCmdArray)
-            {
-                commandSettings.WeaponsMenuResetCommand = [.. weaponsMenuResetCmdArray.Cast<string>()];
             }
             
             // Parse admin commands
@@ -178,7 +168,11 @@ public partial class MesharskyVip
                                      healthPerKnifeKillObj is long healthPerKnifeKill ? (int)healthPerKnifeKill : 0,
                 HealthPerNoScope = group.TryGetValue("health_per_noscope", out var healthPerNoScopeObj) && 
                                    healthPerNoScopeObj is long healthPerNoScope ? (int)healthPerNoScope : 0,
-                WeaponMenu = new WeaponMenuConfig()             
+                
+                ChatTag = group.TryGetValue("chat_tag", out var chatTagObj) && chatTagObj is string chatTag ? chatTag : "",
+                ChatColor = group.TryGetValue("chat_color", out var chatColorObj) && chatColorObj is string chatColor ? chatColor : "",
+                NameColor = group.TryGetValue("name_color", out var nameColorObj) && nameColorObj is string nameColor ? nameColor : "",
+                ScoreboardTag = group.TryGetValue("scoreboard_tag", out var scoreboardTagObj) && scoreboardTagObj is string scoreboardTag ? scoreboardTag : ""
             };
 
             if (group.TryGetValue("smoke_color", out var smokeColorObj) && smokeColorObj is TomlTable smokeColorTable)
@@ -201,9 +195,6 @@ public partial class MesharskyVip
 
             groupSettings.Add(groupConfig);
             
-            var weaponMenuConfig = ParseWeaponMenuConfig(group);
-            groupConfig.WeaponMenu = weaponMenuConfig;
-
             var service = new Service
             {
                 Name = groupConfig.Name,
@@ -236,7 +227,10 @@ public partial class MesharskyVip
                 HealthPerHeadshot = groupConfig.HealthPerHeadshot,
                 HealthPerKnifeKill = groupConfig.HealthPerKnifeKill,
                 HealthPerNoScope = groupConfig.HealthPerNoScope,
-                WeaponMenu = groupConfig.WeaponMenu
+                ChatTag = groupConfig.ChatTag,
+                ChatColor = groupConfig.ChatColor,
+                NameColor = groupConfig.NameColor,
+                ScoreboardTag = groupConfig.ScoreboardTag
             };
 
             ServiceManager.RegisterService(service);
@@ -256,64 +250,6 @@ public partial class MesharskyVip
 
         
 
-    }
-    
-    private WeaponMenuConfig ParseWeaponMenuConfig(TomlTable group)
-    {
-        var weaponMenuConfig = new WeaponMenuConfig();
-        
-        if (group.TryGetValue("weapon_menu", out var weaponMenuObj) && weaponMenuObj is TomlTable weaponMenuTable)
-        {
-            if (weaponMenuTable.TryGetValue("enabled", out var enabledObj) && enabledObj is bool enabled)
-                weaponMenuConfig.Enabled = enabled;
-                
-            if (weaponMenuTable.TryGetValue("min_round", out var minRoundObj) && minRoundObj is long minRound)
-                weaponMenuConfig.MinRound = (int)minRound;
-                
-            if (weaponMenuTable.TryGetValue("counter_terrorists_primary_weapons", out var ctPrimaryObj) && ctPrimaryObj is TomlArray ctPrimaryArray)
-            {
-                weaponMenuConfig.CTPrimaryWeapons = ctPrimaryArray.Cast<string>().ToList();
-            }
-            else if (weaponMenuTable.TryGetValue("ct_primary", out var ctPrimaryAltObj) && ctPrimaryAltObj is TomlArray ctPrimaryAltArray)
-            {
-                weaponMenuConfig.CTPrimaryWeapons = ctPrimaryAltArray.Cast<string>().ToList();
-            }
-            
-            if (weaponMenuTable.TryGetValue("counter_terrorists_secondary_weapons", out var ctSecondaryObj) && ctSecondaryObj is TomlArray ctSecondaryArray)
-            {
-                weaponMenuConfig.CTSecondaryWeapons = ctSecondaryArray.Cast<string>().ToList();
-            }
-            else if (weaponMenuTable.TryGetValue("ct_secondary", out var ctSecondaryAltObj) && ctSecondaryAltObj is TomlArray ctSecondaryAltArray)
-            {
-                weaponMenuConfig.CTSecondaryWeapons = ctSecondaryAltArray.Cast<string>().ToList();
-            }
-            
-            if (weaponMenuTable.TryGetValue("terrorist_primary_weapons", out var tPrimaryObj) && tPrimaryObj is TomlArray tPrimaryArray)
-            {
-                weaponMenuConfig.TPrimaryWeapons = tPrimaryArray.Cast<string>().ToList();
-            }
-            else if (weaponMenuTable.TryGetValue("t_primary", out var tPrimaryAltObj) && tPrimaryAltObj is TomlArray tPrimaryAltArray)
-            {
-                weaponMenuConfig.TPrimaryWeapons = tPrimaryAltArray.Cast<string>().ToList();
-            }
-            
-            if (weaponMenuTable.TryGetValue("terrorist_secondary_weapons", out var tSecondaryObj) && tSecondaryObj is TomlArray tSecondaryArray)
-            {
-                weaponMenuConfig.TSecondaryWeapons = tSecondaryArray.Cast<string>().ToList();
-            }
-            else if (weaponMenuTable.TryGetValue("t_secondary", out var tSecondaryAltObj) && tSecondaryAltObj is TomlArray tSecondaryAltArray)
-            {
-                weaponMenuConfig.TSecondaryWeapons = tSecondaryAltArray.Cast<string>().ToList();
-            }
-            
-            Console.WriteLine($"[Mesharsky - VIP] Weapon menu config: Enabled={weaponMenuConfig.Enabled}, MinRound={weaponMenuConfig.MinRound}");
-            Console.WriteLine($"[Mesharsky - VIP] CT Primary Weapons: {weaponMenuConfig.CTPrimaryWeapons.Count}");
-            Console.WriteLine($"[Mesharsky - VIP] CT Secondary Weapons: {weaponMenuConfig.CTSecondaryWeapons.Count}");
-            Console.WriteLine($"[Mesharsky - VIP] T Primary Weapons: {weaponMenuConfig.TPrimaryWeapons.Count}");
-            Console.WriteLine($"[Mesharsky - VIP] T Secondary Weapons: {weaponMenuConfig.TSecondaryWeapons.Count}");
-        }
-        
-        return weaponMenuConfig;
     }
 
 

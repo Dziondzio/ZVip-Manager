@@ -9,10 +9,10 @@ namespace Mesharsky_Vip;
 
 public partial class MesharskyVip : BasePlugin
 {
-    public override string ModuleName => "VIP Manager";
-    public override string ModuleAuthor => "Mesharsky";
-    public override string ModuleDescription => "Advanced vip manager plugin.";
-    public override string ModuleVersion => "1.3.0";
+    public override string ModuleName => "ZVipManager";
+    public override string ModuleAuthor => "Dziondzio fork Mesharsky";
+    public override string ModuleDescription => "fork Advanced vip manager plugin.";
+    public override string ModuleVersion => "2.0";
 
     public IT3MenuManager? MenuManager;
 

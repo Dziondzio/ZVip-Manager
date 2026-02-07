@@ -31,6 +31,7 @@ public partial class MesharskyVip
         public bool BonusesList { get; set; }
         public string? BypassFlag { get; set; }
         public string? BypassFlagGive { get; set; }
+        public bool UseInternalTags { get; set; } = true;
     }
 
     public class NightVipConfig
@@ -57,8 +58,6 @@ public partial class MesharskyVip
         public List<string> VipCommand { get; set; } = [];
         public List<string> BenefitsCommand { get; set; } = [];
         public List<string> OnlineCommand { get; set; } = [];
-        public List<string> WeaponsMenuCommand { get; set; } = [];
-        public List<string> WeaponsMenuResetCommand { get; set; } = [];
     
         // Admin commands
         public List<string> AddVipCommand { get; set; } = [];
@@ -77,16 +76,6 @@ public partial class MesharskyVip
         public int Red { get; set; } = 255;
         public int Green { get; set; } = 255;
         public int Blue { get; set; } = 255;
-    }
-
-    public class WeaponMenuConfig
-    {
-        public bool Enabled { get; set; } = false;
-        public int MinRound { get; set; } = 1;
-        public List<string> CTPrimaryWeapons { get; set; } = [];
-        public List<string> CTSecondaryWeapons { get; set; } = [];
-        public List<string> TPrimaryWeapons { get; set; } = [];
-        public List<string> TSecondaryWeapons { get; set; } = [];
     }
 
     public class GroupSettingsConfig
@@ -115,7 +104,6 @@ public partial class MesharskyVip
         public int PlayerExtraJumps { get; set; }
         public double PlayerExtraJumpHeight { get; set; }
         public bool PlayerBunnyhop { get; set; }
-        public bool PlayerWeaponmenu { get; set; }
         
         public bool InfiniteAmmo { get; set; }
         public bool FastReload { get; set; }
@@ -130,7 +118,10 @@ public partial class MesharskyVip
         // Smoke Color
         public required SmokeColorConfig SmokeColor { get; set; }
         
-        // Weapon Menu
-        public required WeaponMenuConfig WeaponMenu { get; set; } = new();
+        // Tags
+        public string ChatTag { get; set; } = "";
+        public string ChatColor { get; set; } = "";
+        public string NameColor { get; set; } = "";
+        public string ScoreboardTag { get; set; } = "";
     }
 }

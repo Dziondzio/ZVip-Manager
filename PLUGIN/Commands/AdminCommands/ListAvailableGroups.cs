@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+using System.Drawing;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Translations;
 using CounterStrikeSharp.API.Modules.Admin;
@@ -111,8 +111,7 @@ public partial class MesharskyVip
             SmokeColorB = group.SmokeColor.Blue,
             InfiniteAmmo = group.InfiniteAmmo,
             FastReload = group.FastReload,
-            KillScreen = group.KillScreen,
-            WeaponMenu = group.WeaponMenu
+            KillScreen = group.KillScreen
         };
         
         BenefitsRenderer.RenderServiceBenefits(menu, admin, service);

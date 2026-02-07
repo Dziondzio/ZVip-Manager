@@ -16,7 +16,7 @@ namespace Mesharsky_Vip
             RegisterPlayerDeathEvent();
             RegisterFastReloadEvents();
             RegisterInfiniteAmmoEvents();
-            InitializeWeaponMenu();
+            InitializeTags();
         }
     }
 }

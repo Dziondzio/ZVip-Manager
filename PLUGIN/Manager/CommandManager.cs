@@ -38,12 +38,6 @@ public partial class MesharskyVip
                 case "online_command":
                     aliases = Config.CommandSettings.OnlineCommand;
                     break;
-                case "weapons_menu_command":
-                    aliases = Config.CommandSettings.WeaponsMenuCommand;
-                    break;
-                case "weapons_menu_reset_command":
-                    aliases = Config.CommandSettings.WeaponsMenuResetCommand;
-                    break;
                     
                 // Admin commands
                 case "addvip_command":

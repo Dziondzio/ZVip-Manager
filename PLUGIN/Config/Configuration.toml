@@ -27,6 +27,9 @@ bonuses_list = true
 bypass_flag = "@css/root"
 bypass_flag_give = "@mesharsky/svip"
 
+# Enable internal tag system (set to false if using external CS2-Tags plugin)
+use_internal_tags = true
+
 ###################################
 #      Night VIP Settings         #
 ###################################
@@ -73,8 +76,6 @@ test_command = ["css_viptest", "css_testvip", "css_vipt"]
 vip_command = ["css_vip", "css_grupy"]
 benefits_command = ["css_benefits", "css_przywileje"]
 online_command = ["css_online", "css_vips"]
-weapons_menu_command = ["css_guns", "css_weapons", "css_weapon"]
-weapons_menu_reset_command = ["css_gunreset", "css_weaponreset"]
 
 # Admin commands
 addvip_command = ["css_addvipgroup", "css_addvip"]
@@ -136,34 +137,11 @@ red = 255      # These values are ignored when random=true
 green = 0
 blue = 0
 
-[GroupSettings.weapon_menu]
-enabled = true
-min_round = 2
-
-counter_terrorists_primary_weapons = [
-    "weapon_m4a1",
-    "weapon_m4a1_silencer",
-    "weapon_famas",
-    "weapon_ssg08"
-]
-
-counter_terrorists_secondary_weapons = [
-    "weapon_deagle",
-    "weapon_fiveseven",
-    "weapon_p250"
-]
-
-terrorist_primary_weapons = [
-    "weapon_ak47",
-    "weapon_mp7",
-    "weapon_ssg08"
-]
-
-terrorist_secondary_weapons = [
-    "weapon_p250",
-    "weapon_deagle",
-    "weapon_tec9"
-]
+# Tag Settings
+chat_tag = "[VIP]"
+chat_color = "{Green}"
+name_color = "{Green}"
+scoreboard_tag = "VIP"
 
 ######################################
 #       SVIP - Premium Group        #
@@ -212,38 +190,8 @@ red = 255
 green = 0
 blue = 0
 
-[GroupSettings.weapon_menu]
-enabled = true
-min_round = 2
-
-counter_terrorists_primary_weapons = [
-    "weapon_m4a1",
-    "weapon_m4a1_silencer",
-    "weapon_famas",
-    "weapon_awp",
-    "weapon_ssg08",
-    "weapon_mp7"
-]
-
-counter_terrorists_secondary_weapons = [
-    "weapon_deagle",
-    "weapon_fiveseven",
-    "weapon_p250",
-    "weapon_revolver"
-]
-
-terrorist_primary_weapons = [
-    "weapon_ak47",
-    "weapon_sg556",
-    "weapon_galilar",
-    "weapon_mp7",
-    "weapon_awp",
-    "weapon_ssg08"
-]
-
-terrorist_secondary_weapons = [
-    "weapon_p250",
-    "weapon_deagle",
-    "weapon_tec9",
-    "weapon_revolver"
-]
+# Tag Settings
+chat_tag = "[SVIP]"
+chat_color = "{Gold}"
+name_color = "{Gold}"
+scoreboard_tag = "SVIP"
